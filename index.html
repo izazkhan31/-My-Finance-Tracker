@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Finance Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Finance Tracker</h1>
+        <nav>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#add-transaction">Add Transaction</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="dashboard">
+            <h2>Dashboard</h2>
+            <div id="summary">
+                <h3>Financial Summary</h3>
+                <p>Total Income: <span id="total-income">0</span></p>
+                <p>Total Expenses: <span id="total-expenses">0</span></p>
+                <p>Balance: <span id="balance">0</span></p>
+            </div>
+            <div id="chart">
+                <!-- Chart will be rendered here -->
+            </div>
+        </section>
+
+        <section id="add-transaction">
+            <h2>Add Transaction</h2>
+            <form id="transaction-form">
+                <input type="text" id="transaction-name" placeholder="Transaction Name" required>
+                <input type="number" id="transaction-amount" placeholder="Amount" required>
+                <select id="transaction-type">
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+                <button type="submit">Add Transaction</button>
+            </form>
+        </section>
+
+        <section id="about">
+            <h2>About</h2>
+            <p>This website helps you track your finances effectively.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Finance Tracker</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background: #35424a;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+nav a {
+    color: #ffffff;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+h2 {
+    color: #35424a;
+}
+
+#summary {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #35424a;
+    color: #ffffff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+</style>
+<script>
+const transactions = [];
+
+document.getElementById('transaction-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('transaction-name').value;
+    const amount = parseFloat(document.getElementById('transaction-amount').value);
+    const type = document.getElementById('transaction-type').value;
+
+    const transaction = { name, amount, type };
+    transactions.push(transaction);
+    updateSummary();
+    this.reset();
+});
+
+function updateSummary() {
+    let totalIncome = 0;
+    let totalExpenses = 0;
+
+    transactions.forEach(transaction => {
+        if (transaction.type === 'income') {
+            totalIncome += transaction.amount;
+        } else {
+            totalExpenses += transaction.amount;
+        }
+    });
+
+    document.getElementById('total-income').textContent = totalIncome.toFixed(2);
+    document.getElementById('total-expenses').textContent = totalExpenses.toFixed(2);
+    document.getElementById('balance').textContent = (totalIncome - totalExpenses).toFixed(2);
+}
+</script>
